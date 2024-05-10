@@ -17,13 +17,8 @@ class TodoListAdapter(val todoList:ArrayList<Todo>)
         return TodoViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: TodoViewHolder, position: Int)
-    {
+    override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
         holder.binding.checkTask.text = todoList[position].title
-    }
-
-    override fun getItemCount(): Int {
-        return todoList.size
     }
 
     fun updateTodoList(newTodoList: List<Todo>) {
@@ -31,4 +26,9 @@ class TodoListAdapter(val todoList:ArrayList<Todo>)
         todoList.addAll(newTodoList)
         notifyDataSetChanged()
     }
+
+    override fun getItemCount(): Int {
+        return todoList.size
+    }
+
 }
