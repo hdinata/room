@@ -21,7 +21,8 @@ import com.ubaya.todoapp.viewmodel.ListTodoViewModel
  */
 class TodoListFragment : Fragment() {
     private lateinit var viewModel: ListTodoViewModel
-    private val todoListAdapter  = TodoListAdapter(arrayListOf())
+    private val todoListAdapter  = TodoListAdapter(arrayListOf(),
+        { item -> viewModel.clearTask(item) })
 
     private lateinit var binding: FragmentTodoListBinding
 
@@ -41,14 +42,14 @@ class TodoListFragment : Fragment() {
             Navigation.findNavController(it).navigate(action)
         }
 
-        /*viewModel = ViewModelProvider(this).get(ListTodoViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ListTodoViewModel::class.java)
         viewModel.refresh()
         binding.recViewTodo.layoutManager = LinearLayoutManager(context)
         binding.recViewTodo.adapter = todoListAdapter
 
-        */
 
-        //observeViewModel()
+
+        observeViewModel()
     }
 
     fun observeViewModel() {

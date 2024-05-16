@@ -30,7 +30,7 @@ class ListTodoViewModel(application: Application) :
             )
 
             todoLD.postValue(db.todoDao().selectAllTodo())
-            loadingLD.value = false
+            loadingLD.postValue( false )
         }
     }
 
