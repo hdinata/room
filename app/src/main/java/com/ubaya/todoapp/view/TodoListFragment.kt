@@ -13,7 +13,6 @@ import com.ubaya.todoapp.R
 import com.ubaya.todoapp.databinding.FragmentTodoListBinding
 import com.ubaya.todoapp.viewmodel.ListTodoViewModel
 
-
 /**
  * A simple [Fragment] subclass.
  * Use the [TodoListFragment.newInstance] factory method to
