@@ -11,27 +11,35 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.ubaya.todoapp.R
-import com.ubaya.todoapp.databinding.FragmentCreateTodoBinding
+import com.ubaya.todoapp.databinding.FragmentEditTodoBinding
+import com.ubaya.todoapp.model.Todo
 import com.ubaya.todoapp.viewmodel.DetailTodoViewModel
 
 
-class EditTodoFragment : Fragment() {
-    private lateinit var binding: FragmentCreateTodoBinding
+class EditTodoFragment : Fragment(), RadioClick, TodoSaveChangesClick  {
+    private lateinit var binding: FragmentEditTodoBinding
     private lateinit var viewModel: DetailTodoViewModel
+
+    override fun onRadioClick(v: View, priority: Int, obj: Todo) {
+        obj.priority = priority
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentCreateTodoBinding.inflate(inflater,container,
+        binding = FragmentEditTodoBinding.inflate(inflater,container,
             false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.radioListener = this
+        binding.radioListener = this
+        binding.saveListener = this
 
         viewModel = ViewModelProvider(this).get(DetailTodoViewModel::class.java)
 
@@ -42,28 +50,34 @@ class EditTodoFragment : Fragment() {
         binding.txtJudulTodo.text = "Edit Todo"
         binding.btnAdd.text = "Save Changes"
 
-        binding.btnAdd.setOnClickListener {
+        /*binding.btnAdd.setOnClickListener {
             val radio =
                 view.findViewById<RadioButton>(binding.radioGroupPriority.checkedRadioButtonId)
             viewModel.update(binding.txtTitle.text.toString(),
                 binding.txtNotes.text.toString(), radio.tag.toString().toInt(), uuid)
             Toast.makeText(view.context, "Todo updated", Toast.LENGTH_SHORT).show()
             Navigation.findNavController(it).popBackStack()
-        }
+        }*/
+    }
 
-
+    override fun onTodoSaveChangesClick(v: View, obj: Todo) {
+        viewModel.update(obj.title, obj.notes, obj.priority, obj.uuid)
+        Toast.makeText(v.context, "Todo Updated", Toast.LENGTH_SHORT).show()
     }
 
     fun observeViewModel() {
+
         viewModel.todoLD.observe(viewLifecycleOwner, Observer {
-            binding.txtTitle.setText(it.title)
+            binding.todo = it
+
+            /*binding.txtTitle.setText(it.title)
             binding.txtNotes.setText(it.notes)
 
             when (it.priority) {
                 1 -> binding.radioLow.isChecked = true
                 2 -> binding.radioMedium.isChecked = true
                 else -> binding.radioHigh.isChecked = true
-            }
+            }*/
 
         })
 
